@@ -1,0 +1,8 @@
+PRGNAM="Z3"
+VERSION="4.3.2"
+HOMEPAGE="http://z3.codeplex.com/"
+DOWNLOAD="http://z3.codeplex.com/SourceControl/latest#"
+MD5SUM="80d257f78656b3bf12230eba4a839175"
+REQUIRES=""
+MAINTAINER="Gareth Smith"
+EMAIL="slack@totherme.org.uk"
