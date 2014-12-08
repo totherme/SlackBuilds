@@ -64,7 +64,7 @@ cd $TMP/z3
 rm -rf *
 unzip $CWD/$PRGNAM--cee7dd39444c9060186df79c2a2c7f8845de415b.zip
 chown -R root:root .
-python scripts/mk_make.py --prefix=$PKG # --prefix=/usr is the default
+python scripts/mk_make.py --prefix=$PKG/usr # --prefix=/usr is the default
 cd build
 make
 make install 
@@ -74,36 +74,31 @@ make install
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
 
-# Compress man pages
-# If the man pages are installed to /usr/share/man instead, you'll need to 
-# move them manually.
-find $PKG/usr/man -type f -exec gzip -9 {} \;
-for i in $( find $PKG/usr/man -type l ) ; do ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
+# There are no man pages or info pages.
 
-# Compress info pages and remove the package's dir file
-# If no info pages are installed by the software, don't leave this in the script
-rm -f $PKG/usr/info/dir
-gzip -9 $PKG/usr/info/*.info*
-
-# Remove perllocal.pod and other special files that don't need to be installed,
-# as they will overwrite what's already on the system.  If this is not needed,
-# remove it from the script.
-find $PKG -name perllocal.pod -o -name ".packlist" -o -name "*.bs" | xargs rm -f || true
+# Make the Z3 Api Documentation
+cd $TMP/z3/doc
+python mk_api_doc.py
+which dot && doxygen z3code.dox # Only build doxygen docs if you have dot.
 
 # Copy program documentation into the package
 # The included documentation varies from one application to another, so be sure
 # to adjust your script as needed
 # Also, include the SlackBuild script in the documentation directory
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
-cp -a \
-  <documentation> \
+cp -ar \
+  $TMP/z3/README \
+  $TMP/z3/LICENSE.txt \
+  $TMP/z3/RELEASE_NOTES \
+  $TMP/z3/doc/code \ 
+  $TMP/z3/doc/api \
+  $CWD/slack-desc \
   $PKG/usr/doc/$PRGNAM-$VERSION
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
 
-# Copy the slack-desc (and a custom doinst.sh if necessary) into ./install
+# Copy the slack-desc into ./install
 mkdir -p $PKG/install
 cat $CWD/slack-desc > $PKG/install/slack-desc
-cat $CWD/doinst.sh > $PKG/install/doinst.sh
 
 # Make the package; be sure to leave it in $OUTPUT
 # If package symlinks need to be created during install *before*
