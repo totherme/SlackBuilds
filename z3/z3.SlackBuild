@@ -59,10 +59,11 @@ fi
 set -e # Exit on most errors
 
 rm -rf $PKG
-mkdir -p $TMP $PKG $OUTPUT $TMP/z3
+mkdir -p $TMP $PKG $OUTPUT 
+rm -rf $TMP/z3
+mkdir -p $TMP/z3
 cd $TMP/z3
-rm -rf *
-unzip $CWD/$PRGNAM--cee7dd39444c9060186df79c2a2c7f8845de415b.zip
+unzip $CWD/$PRGNAM-cee7dd39444c9060186df79c2a2c7f8845de415b.zip
 chown -R root:root .
 python scripts/mk_make.py --prefix=$PKG/usr # --prefix=/usr is the default
 cd build
