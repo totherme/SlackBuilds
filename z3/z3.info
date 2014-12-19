@@ -1,4 +1,4 @@
-PRGNAM="Z3"
+PRGNAM="z3"
 VERSION="4.3.2"
 HOMEPAGE="http://z3.codeplex.com/"
 DOWNLOAD="http://z3.codeplex.com/SourceControl/latest#"
