@@ -1,0 +1,11 @@
+--- scripts/mk_util.py	2015-07-03 21:02:50.640972856 -0500
++++ scripts/mk_util.py.new	2015-07-03 21:04:29.524884531 -0500
+@@ -517,7 +517,7 @@
+             STATIC_LIB = True
+         elif not IS_WINDOWS and opt in ('-p', '--prefix'):
+             PREFIX = arg
+-            PYTHON_PACKAGE_DIR = os.path.join(PREFIX, 'lib', 'python%s' % distutils.sysconfig.get_python_version(), 'dist-packages')
++            PYTHON_PACKAGE_DIR = os.path.join(PREFIX, 'lib64', 'python%s' % distutils.sysconfig.get_python_version(), 'dist-packages')
+             mk_dir(PYTHON_PACKAGE_DIR)
+             if sys.version >= "3":
+                 mk_dir(os.path.join(PYTHON_PACKAGE_DIR, '__pycache__'))
