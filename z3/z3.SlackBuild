@@ -65,6 +65,12 @@ mkdir -p $TMP/z3
 cd $TMP/z3
 unzip $CWD/$PRGNAM-cee7dd39444c9060186df79c2a2c7f8845de415b.zip
 chown -R root:root .
+
+# Use correct hard-coded libdir when specifying prefix
+if [ "$LIBDIRSUFFIX" = "64" ]; then
+  patch -p0 < $CWD/lib64.patch
+fi
+
 python scripts/mk_make.py --prefix=$PKG/usr # --prefix=/usr is the default
 cd build
 make
